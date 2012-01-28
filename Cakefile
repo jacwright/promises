@@ -9,3 +9,21 @@ task 'compile', 'Compile to Javascript', ->
 		console.error stderr if stderr
 		console.log stdout if stdout
 		console.log "Compiled in #{new Date().getTime() - start} ms" if not error
+
+
+task 'test', 'Run the tests', (options) ->
+	tests = spawn 'jasmine-node', ['--coffee', 'tests']
+	
+	tests.stdout.setEncoding 'utf8'
+	tests.stdout.on 'data', (data) ->
+		console.log(data.replace /\n$/, '')
+	
+	tests.stderr.setEncoding 'utf8'
+	tests.stderr.on 'data', (data) ->
+		console.log(data.replace /\n$/, '')
+
+
+
+task 'build', 'Compile the script and run the tests', ->
+	invoke 'compile'
+	invoke 'test'
