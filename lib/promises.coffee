@@ -154,9 +154,6 @@ class Promise
 
 exports.when = (params...) ->
 	deferred = new Deferred
-	if params.length <= 1
-		return (deferred.fulfill obj).promise
-	
 	count = params.length
 	failed = false
 	failCallback = (value) ->
