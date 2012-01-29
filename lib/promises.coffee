@@ -169,8 +169,6 @@ exports.when = (params...) ->
 					deferred.fail params...
 				else
 					deferred.fulfill params...
-			
-			value
 	
 	
 	for obj, name in params
