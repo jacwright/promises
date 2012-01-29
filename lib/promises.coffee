@@ -173,7 +173,7 @@ exports.when = (params...) ->
 			value
 	
 	
-	for name, obj in params
+	for obj, name in params
 		if obj and typeof obj.then is 'function'
 			(obj.failed failCallback).finished createCallback name
 		else
