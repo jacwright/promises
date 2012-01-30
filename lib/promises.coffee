@@ -156,7 +156,8 @@ exports.when = (params...) ->
 	deferred = new Deferred
 	count = params.length
 	failed = false
-	failCallback = (value) ->
+	fulfilledCallback = ->
+	failedCallback = (value) ->
 		failed = true
 		value
 	
@@ -173,7 +174,9 @@ exports.when = (params...) ->
 	
 	for obj, name in params
 		if obj and typeof obj.then is 'function'
-			(obj.failed failCallback).finished createCallback name
+			finishedCallback = createCallback(name)
+			obj.then fulfilledCallback, failedCallback 
+			obj.then finishedCallback, finishedCallback
 		else
 			--count
 	
@@ -242,7 +245,7 @@ class Deferred
 	
 	# successfully fulfill this deferred's promise.
 	fulfill: (params...) =>
-		if params?[0].isArgs then params = params[0]
+		if params[0]?.isArgs then params = params[0]
 		finish.call this, 'fulfilled', params
 	
 	
