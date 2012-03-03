@@ -221,7 +221,7 @@ class Deferred
 	
 	# handle a promise whether it was fulfilled, failed, and/or its progress
 	then: (fulfilledHandler, failedHandler, progressHandler, canceledHandler) =>
-		@progressHandlers.push progressHandler?
+		@progressHandlers.push(progressHandler) if progressHandler
 		nextDeferred = new Deferred
 		nextDeferred.promise.prev = @.promise
 		
