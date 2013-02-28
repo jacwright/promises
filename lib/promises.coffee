@@ -325,8 +325,6 @@ if not Function::bind
 promises.Deferred = Deferred
 promises.Promise = Promise
 promises.args = args
-if typeof exports isnt 'undefined'
-	promises.fs = require('./fs')
 
 # returns a new instance of Deferred
 promises.defer = (promise) -> new promises.Deferred(promise)
@@ -356,3 +354,7 @@ promises.reject = (args...) ->
 	deferred = promises.defer()
 	deferred.reject args...
 	deferred.promise
+
+
+if typeof exports isnt 'undefined'
+	promises.fs = require('./fs')
