@@ -242,17 +242,22 @@ class Deferred
 	
 	
 	# reject this deferred's promise
-	reject: (params...) => @_finish 'reject', params
+	reject: (params...) =>
+		if params[0]?.isArgs then params = params[0]
+		@_finish 'reject', params
 	
 	
 	# cancel this deferred's promise
 	cancel: (params...) =>
+		if params[0]?.isArgs then params = params[0]
 		@_finish 'cancel', params
 		@promise.prev?.cancel()
 	
 	
 	# update progress on this deferred's promise
-	progress: (params) => progress params... for progress in @progressHandlers
+	progress: (params...) =>
+		for progress in @progressHandlers
+			progress params...
 	
 	
 	# set a timeout for this deferred to auto-reject
@@ -294,12 +299,11 @@ class Deferred
 		
 		# run the then
 		nextResult = method(results...)
-		
-		if deferred
-			if nextResult and typeof nextResult.then is 'function' # a promise returned, chain
-				nextResult.then deferred.resolve, deferred.reject
-			else # pass along the error/result
-				deferred[@status](results...)
+
+		if nextResult and typeof nextResult.then is 'function' # a promise returned, chain
+			nextResult.then deferred.resolve, deferred.reject
+		else # pass along the error/result
+			deferred[@status](nextResult)
 	
 	
 	_addHandler: (resolvedHandler, rejectedHandler, canceledHandler) ->
