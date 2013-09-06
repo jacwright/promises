@@ -67,7 +67,7 @@ class Promise
 	
 	get: (propertyName) ->
 		@then (object) ->
-			object[propertyName]
+			object?[propertyName]
 		
 	
 	
@@ -83,7 +83,7 @@ class Promise
 	
 	set: (propertyName, value) ->
 		@then (object) ->
-			object[propertyName] = value
+			object?[propertyName] = value
 			return object
 	
 	
@@ -98,7 +98,7 @@ class Promise
 	
 	put: (propertyName, value) ->
 		@then (object) ->
-			object[propertyName] = value
+			object?[propertyName] = value
 	
 	
 	
@@ -112,7 +112,7 @@ class Promise
 	
 	run: (functionName, params...) ->
 		@then (object) ->
-			object[functionName] params...
+			object?[functionName] params...
 			return object
 	
 	
@@ -133,8 +133,8 @@ class Promise
 # Add array methods which have a return result onto promise for async array handling
 ['pop', 'shift', 'splice', 'filter', 'every', 'map', 'some'].forEach (method) ->
 	Promise::[method] = (args...) ->
-		@then (object) =>
-			if object instanceof Array then object[method](args...) else object
+		@then (object) ->
+			object?[method]?(args...)
 
 # Add array methods which have no return onto promise for async array handling
 ['push', 'reverse', 'sort', 'unshift', 'forEach'].forEach (method) ->
