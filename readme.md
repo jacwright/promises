@@ -20,13 +20,9 @@ var promises = require('promises');
 var fs = require('fs');
 var writeFile = promises.wrap(fs.writeFile);
 
-import promises from 'promises';
-import fs from 'fs';
-const writeFile = promises.wrap(fs.writeFile);
-
-writeFile('test.txt', 'This is my text').then(() => {
+writeFile('test.txt', 'This is my text').then(function() {
     // do what needs to be done
-}, (err) => {
+}, function(err) {
     // handle the error
 });
 ```
@@ -71,9 +67,9 @@ function ifServiceOffLineUseCache(err) {
     }
 }
 
-db.load().rejected(ifOfflineUseCache).then((data) => {
+db.load().rejected(ifOfflineUseCache).then(function(data) => {
     // if the database was offline we can recover by using our cache
-}, (err) => {
+}, function(err) {
     // if it was another error we can handle it as usual
 })
 ```
