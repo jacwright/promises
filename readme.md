@@ -15,7 +15,7 @@ For Node.js run `npm install promises`. For browser usage download promises.js a
 
 You may wrap node.js libraries that follow the callback standards, i.e. the callback is the last parameter and follows the signature function(err, result).
 
-```
+```js
 var promises = require('promises');
 var fs = require('fs');
 var writeFile = promises.wrap(fs.writeFile);
@@ -35,16 +35,16 @@ Advanced Features
 
 To pass data along you may return a new value from your resolve handler.
 
-```
+```js
 function addTwo(num) {
-    return num+2;
+    return num + 2;
 }
 
 asyncAction().then(addTwo).then(alert); // will alert out 12 if asyncAction gives us 10
 ```
 
 You may pass `null` if you don't care to handle a result, but for `then()` there are also shortcut methods, e.g.
-```
+```js
 asyncAction().then(null, handleError);
 asyncAction().rejected(handleError); // this is the same as previous
 ```
@@ -58,7 +58,7 @@ you can then handle the next promise as resolved. To do this, you will use the `
 
 Example:
 
-```
+```js
 function ifServiceOffLineUseCache(err) {
     if (err.message === 'dbOffline') {
         return promises.resolve(cache.load());
