@@ -67,7 +67,7 @@ function ifServiceOffLineUseCache(err) {
     }
 }
 
-db.load().rejected(ifOfflineUseCache).then(function(data) => {
+db.load().rejected(ifOfflineUseCache).then(function(data) {
     // if the database was offline we can recover by using our cache
 }, function(err) {
     // if it was another error we can handle it as usual
